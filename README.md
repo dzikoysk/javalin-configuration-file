@@ -19,9 +19,9 @@ val application = Javalin.create {
 
 Order of precedence:
 1. `application.yml` in working directory
-2`application.yml` in resources
+2. `application.yml` in resources
 
-### Properties
+### Default properties
 
 All properties are optional, so you can define only the ones you need.
 
@@ -51,4 +51,34 @@ server:
     directories:
       - directory: /public
         location: CLASSPATH
+```
+
+### Custom properties
+
+You can define custom properties for you application or other plugins by simply adding them to the YAML file.
+
+```yaml
+my-plugin:
+  property: value
+```
+
+Then, create a data class to hold the values:
+
+```kotlin
+// Root scope for a config file
+data class ConfigFile(
+    // Your configs
+    val myPlugin: MyPluginConfig
+)
+
+data class MyPluginConfig(val property: String)
+```
+
+Finally, you can load defined values via `ConfigFile` plugin API:
+
+```kotlin
+val application = Javalin.create {
+    val configFilePlugin = ConfigFilePlugin()
+    val myPluginConfig = configFilePlugin.loadConfiguration<MyPluginConfig>()
+}
 ```

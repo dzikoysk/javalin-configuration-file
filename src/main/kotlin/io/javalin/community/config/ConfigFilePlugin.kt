@@ -26,7 +26,7 @@ class ConfigFilePlugin(config: Consumer<ConfigFilePluginConfig>) : JavalinPlugin
     }
 
     companion object {
-        object ConfigFile : io.javalin.community.config.ConfigFilePlugin.ConfigFile()
+        object ConfigFile : ConfigFilePlugin.ConfigFile()
     }
 
     private val pluginConfig = config.createUserConfig(ConfigFilePluginConfig())
@@ -35,6 +35,9 @@ class ConfigFilePlugin(config: Consumer<ConfigFilePluginConfig>) : JavalinPlugin
         val defaultConfigFile = loadConfiguration(DefaultConfigFile::class.java)
         defaultConfigFile.applyConfiguration(config)
     }
+
+    inline fun <reified C : Any> loadConfiguration(): C =
+        loadConfiguration(C::class.java)
 
     fun <C : Any> loadConfiguration(type: Class<C>): C =
         ConfigLoaderBuilder.default()
