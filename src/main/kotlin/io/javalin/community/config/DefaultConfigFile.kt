@@ -1,10 +1,10 @@
-package io.javalin.plugin.config
+package io.javalin.community.config
 
 import io.javalin.config.JavalinConfig
 import io.javalin.http.staticfiles.Location
-import io.javalin.plugin.config.Compression.CompressionType.BROTLI
-import io.javalin.plugin.config.Compression.CompressionType.GZIP
-import io.javalin.plugin.config.Compression.CompressionType.NONE
+import io.javalin.community.config.Compression.CompressionType.BROTLI
+import io.javalin.community.config.Compression.CompressionType.GZIP
+import io.javalin.community.config.Compression.CompressionType.NONE
 import io.javalin.util.ConcurrencyUtil
 
 private interface DefaultConfigApplicator {

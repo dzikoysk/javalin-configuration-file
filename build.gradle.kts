@@ -1,17 +1,40 @@
 import com.bnorm.power.PowerAssertGradleExtension
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.9.10"
     id("com.bnorm.power.kotlin-power-assert") version "0.13.0"
+    `maven-publish`
+    `java-library`
 }
 
-group = "io.javalin"
+group = "io.javalin.community"
 version = "6.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
     maven("https://maven.reposilite.com/snapshots")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "reposilite-repository"
+            url = uri("https://maven.reposilite.com/${if (version.toString().endsWith("-SNAPSHOT")) "snapshots" else "releases"}")
+
+            credentials {
+                username = getEnvOrProperty("MAVEN_NAME", "mavenUser")
+                password = getEnvOrProperty("MAVEN_TOKEN", "mavenPassword")
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("library") {
+            from(components.getByName("java"))
+        }
+    }
 }
 
 dependencies {
@@ -27,18 +50,16 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks.test {
     useJUnitPlatform()
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-    kotlinOptions.javaParameters = true
-}
-
-tasks.withType<JavaCompile> {
-    sourceCompatibility = JavaVersion.VERSION_17.toString()
-    targetCompatibility = JavaVersion.VERSION_17.toString()
 }
 
 configure<PowerAssertGradleExtension> {
@@ -48,3 +69,6 @@ configure<PowerAssertGradleExtension> {
         "kotlin.test.assertFalse",
     )
 }
+
+fun getEnvOrProperty(env: String, property: String): String? =
+    System.getenv(env) ?: findProperty(property)?.toString()

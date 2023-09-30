@@ -1,5 +1,29 @@
-# Javalin Config File Plugin
+# Javalin Config File Plugin ![Snapshot](https://maven.reposilite.com/api/badge/latest/snapshots/io/javalin/community/javalin-configuration-file?color=A97BFF&name=Snapshot)
 Define static configuration for Javalin in a YAML file.
+
+### Usage
+
+Add the dependency to your project:
+
+```kotlin
+implementation("io.javalin.community:javalin-configuration-file:6.0.0-SNAPSHOT")
+```
+
+Register the plugin:
+
+```kotlin
+val application = Javalin.create {
+    it.registerPlugin(ConfigFile) 
+}
+```
+
+Order of precedence:
+1. `application.yml` in working directory
+2`application.yml` in resources
+
+### Properties
+
+All properties are optional, so you can define only the ones you need.
 
 ```yaml
 server:

@@ -1,8 +1,9 @@
-package io.javalin.plugin.config
+package io.javalin.community.config
 
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addFileSource
 import com.sksamuel.hoplite.addResourceSource
+import io.javalin.community.config.ConfigFilePlugin.ConfigFile
 import io.javalin.config.JavalinConfig
 import io.javalin.plugin.JavalinPlugin
 import io.javalin.plugin.PluginConfiguration
@@ -25,7 +26,7 @@ class ConfigFilePlugin(config: Consumer<ConfigFilePluginConfig>) : JavalinPlugin
     }
 
     companion object {
-        object ConfigFile : ConfigFilePlugin.ConfigFile()
+        object ConfigFile : io.javalin.community.config.ConfigFilePlugin.ConfigFile()
     }
 
     private val pluginConfig = config.createUserConfig(ConfigFilePluginConfig())

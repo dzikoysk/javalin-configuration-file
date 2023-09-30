@@ -1,5 +1,7 @@
+package io.javalin.community.config
+
 import io.javalin.Javalin
-import io.javalin.plugin.config.ConfigFilePlugin.Companion.ConfigFile
+import io.javalin.community.config.ConfigFilePlugin.Companion.ConfigFile
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 import org.junit.jupiter.api.Test
