@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  hostname: localhost
+  banner: false
+  http:
+    default-content-type: application/panda
+    prefer-405-over-404: true
+    max-request-size: 100000
+    async-timeout: 30000
+    compression:
+      strategy: GZIP
+      level: 5
+  jetty:
+    min-threads: 10
+    max-threads: 200
+  router:
+    content-path: /panda
+    ignore-trailing-slashes: true
+    treat-multiple-slashes-as-single-slash: true
+    case-insensitive-routes: true
+  static-files:
+    enable-webjars: true
+    directories:
+      - directory: /public
+        location: CLASSPATH
