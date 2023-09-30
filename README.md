@@ -1,5 +1,6 @@
 # Javalin Config File Plugin ![Snapshot](https://maven.reposilite.com/api/badge/latest/snapshots/io/javalin/community/javalin-configuration-file?color=A97BFF&name=Snapshot)
-Define static configuration for Javalin in a YAML file.
+Define static configuration file for your Javalin app in a YAML file.
+You don't have to use 3rd party libraries to handle configuration files anymore.
 
 ### Usage
 
@@ -82,3 +83,5 @@ val application = Javalin.create {
     val myPluginConfig = configFilePlugin.loadConfiguration<MyPluginConfig>()
 }
 ```
+
+Done!
