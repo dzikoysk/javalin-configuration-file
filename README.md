@@ -13,7 +13,7 @@ implementation("io.javalin.community:javalin-configuration-file:6.0.0-SNAPSHOT")
 Register the plugin:
 
 ```kotlin
-val application = Javalin.create {
+val runningApplication = Javalin.createAndStart {
     it.registerPlugin(ConfigFile) 
 }
 ```
@@ -78,9 +78,9 @@ data class MyPluginConfig(val property: String)
 Finally, you can load defined values via `ConfigFile` plugin API:
 
 ```kotlin
-val application = Javalin.create {
-    val configFilePlugin = ConfigFilePlugin()
-    val myPluginConfig = configFilePlugin.loadConfiguration<MyPluginConfig>()
+val application = Javalin.createAndStart {
+    val configPlugin = it.registerPlugin(ConfigFile)
+    val myPluginConfig = configPlugin.loadConfiguration<MyPluginConfig>()
 }
 ```
 
