@@ -33,8 +33,8 @@ data class Server(
 ) : DefaultConfigApplicator {
 
     override fun applyConfiguration(config: JavalinConfig) {
-        // TODO: hostname
-        // TODO: port
+        hostname?.let { config.jetty.defaultHost = it }
+        port?.let { config.jetty.defaultPort = it }
         banner?.let { config.showJavalinBanner = it }
 
         http?.applyConfiguration(config)
@@ -80,13 +80,15 @@ data class Jetty(
 data class JettyThreadPool(
     val maxThreads: Int? = null,
     val minThreads: Int? = null,
+    val useLoom: Boolean? = null,
 ) : DefaultConfigApplicator {
 
     override fun applyConfiguration(config: JavalinConfig) {
         config.jetty.threadPool = ConcurrencyUtil.jettyThreadPool(
             "JettyServerThreadPool",
             minThreads ?: 8,
-            maxThreads ?: 250
+            maxThreads ?: 250,
+            useLoom ?: false
         )
     }
 
@@ -104,12 +106,12 @@ data class Compression(
     }
 
     override fun applyConfiguration(config: JavalinConfig) {
-        config.compression.apply {
+        config.http.apply {
             strategy?.let {
                 when (it) {
-                    GZIP -> gzipOnly(level ?: 6)
-                    BROTLI -> brotliOnly(level ?: 4)
-                    NONE -> none()
+                    GZIP -> gzipOnlyCompression(level ?: 6)
+                    BROTLI -> brotliOnlyCompression(level ?: 4)
+                    NONE -> disableCompression()
                 }
             }
         }
